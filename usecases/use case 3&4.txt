@@ -1,0 +1,44 @@
+Use Case 3: Heart Rhythm Analysis
+Primary Actor: User
+Scope: AED device
+Level: user level
+Precondition: The AED device is powered on and operational and the AED has undergone a self-test to ensure proper functionality. The electrode pads placed in the correct place.
+Flow:
+1.Triggering Heart Rhythm Analysis:
+The AED is activated, either manually by a user or automatically when turned on. Upon activation, the device starts analyzing the patient's heart rhythm.
+2.Electrode Placement:
+The user follows visual prompts or instructions on the AED to correctly attach the electrodes to specific locations on the patient's chest for analysis.
+3.Continuous Monitoring:
+As the electrodes are connected, the AED monitors the electrical activity of the heart in real-time, assessing for ventricular fibrillation or ventricular tachycardia.
+4.Analysis Result:
+Based on the analysis, the AED determines whether the patient's heart rhythm is shockable or not. It then prompts the user with the result, indicating the appropriate course of action.
+5.Integration with Display:
+The AED visually displays the analysis result on its screen, making it easy for the user to interpret the information.
+Postconditions:
+AED provides a clear analysis result for further action.
+Exceptions:
+Inaccurate Electrode Placement: If the electrodes are not placed correctly, the AED informs the user and prompts reattachment.
+
+
+
+
+Use Case 4: Voice and Visual Prompts
+Primary Actor: User
+Scope: AED device
+Level: User level
+Precondition: The AED device is powered on and operational and the AED has undergone a self-test to ensure proper functionality. The electrode pads placed in the correct place.
+Flow:
+1.Activation Prompt:
+The AED should provide a clear activation prompt upon initiation. When activated, the AED emits a voice prompt and displays on-screen instructions, guiding the user through the initial steps.
+2.Analyzing Announcement:
+As the AED analyzes the heart rhythm, it should audibly announce the ongoing analysis process. Simultaneously, a visual prompt may indicate the analysis phase on the display.
+3.Shock Advisory Prompt:
+If the analysis determines a shockable rhythm, the AED issues a prompt, both verbally and visually, stating "Shock advised" to instruct the user to prepare for a shock.
+4.User Confirmation Prompt:
+Users must confirm understanding before the AED delivers a shock.
+5.Post-Shock Instruction:
+ After a shock is delivered or if no shock is advised, the AED issues further prompts, guiding the user on the next steps.
+Postconditions:
+ AED provides clear voice and visual prompts, guiding the user through each stage of the emergency response.
+Exceptions:
+User Misunderstanding: If the user does not confirm understanding, the AED repeats the prompt until confirmation is received.
