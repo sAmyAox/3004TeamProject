@@ -31,11 +31,10 @@ public:
 
 
 signals:
-    void text_prompt_update(QString &str);
+    void text_prompt_update(const QString &str);
 
 public slots:
     void debug();
-    void slot1();
 
 
 

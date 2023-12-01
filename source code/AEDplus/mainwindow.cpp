@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::update_text_prompt(QString &text){
+void MainWindow::update_text_prompt(const QString &text){
     ui->text_prompt->setText(text);
 }
 /*void MainWindow::button_clicked_on(){

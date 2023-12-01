@@ -38,6 +38,6 @@ void device::display_prompt(){
 
 void device::debug(){
     qDebug()<<"debuging";
-    emit text_prompt_update("abc");
+    emit text_prompt_update("lmao");
     //MainWindow::update_text_prompt("abcde");
 }

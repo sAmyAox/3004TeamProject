@@ -30,7 +30,7 @@ public slots:
     void button_clicked_badElectrode();
     void button_clicked_shock();*/
     //void button_clicked_on();
-    void update_text_prompt(QString &text);
+    void update_text_prompt(const QString &text);
 private:
     Ui::MainWindow *ui;
 };
