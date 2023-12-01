@@ -31,6 +31,8 @@ public slots:
     void button_clicked_shock();*/
     //void button_clicked_on();
     void update_text_prompt(const QString &text);
+    void update_text_CPR(const QString &text);
+    void update_text_status(const QString &text);
 private:
     Ui::MainWindow *ui;
 };

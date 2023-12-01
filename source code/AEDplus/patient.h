@@ -2,6 +2,7 @@
 #define PATIENT_H
 
 #include <QObject>
+#include <QDebug>
 
 class patient:public QObject
 {
@@ -18,6 +19,8 @@ private:
 public:
     patient(/* args */);
     ~patient();
+
+    void set_status();
 
 signals:
     void signal_shocked();
