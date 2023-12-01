@@ -2,6 +2,9 @@
 #define DEVICE_H
 
 #include <QObject>
+#include <QDebug>
+#include "mainwindow.h"
+
 class device:public QObject
 {
     Q_OBJECT
@@ -20,15 +23,19 @@ public:
     void shock();//deliver shock to patient
     void display_device_status();//show status when the device turned on
     void detect_rhythm();//getter for patient's heart rhythm
-    void workflow();
-    void display_CPR_feedback();//when pressed button, tell user if it is bad or good.
+    void workflow();//init for patients and blabla.
+    void display_bad_CPR_feedback();//when pressed button, tell user if it is bad or good.
+    void display_good_CPR_feedback();//when pressed button, tell user if it is bad or good.
     //void error_mode();//if the device wait for too long, enter error mode.(asking to give CPR)
     void display_prompt();//maybe qstring?
 
 
 signals:
+    void text_prompt_update(QString &str);
 
 public slots:
+    void debug();
+    void slot1();
 
 
 

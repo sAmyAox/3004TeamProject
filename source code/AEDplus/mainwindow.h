@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "patient.h"
+#include "device.h"
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,6 +18,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+
+
+public slots:
+    /*
+
+    void button_clicked_goodCPR();
+    void button_clicked_badCPR();
+    void button_clicked_goodElectrode();
+    void button_clicked_badElectrode();
+    void button_clicked_shock();*/
+    //void button_clicked_on();
+    void update_text_prompt(QString &text);
 private:
     Ui::MainWindow *ui;
 };

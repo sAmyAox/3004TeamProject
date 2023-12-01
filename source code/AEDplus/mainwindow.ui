@@ -28,7 +28,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="qCustomPlot" name="widget" native="true"/>
+           <widget class="QCustomPlot" name="widget" native="true"/>
           </item>
          </layout>
         </widget>
@@ -143,12 +143,29 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>qCustomPlot</class>
+   <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>button_on</sender>
+   <signal>clicked()</signal>
+   <receiver>text_prompt</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>646</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>429</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
