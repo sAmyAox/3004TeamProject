@@ -12,9 +12,6 @@ private:
     //bool vt;//venticular tacgycardia, heart_rate>120 == true
     bool shocked;//the status of patient, false==before shock
 
-
-
-
 public:
     patient(/* args */);
     ~patient();
