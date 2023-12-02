@@ -5,6 +5,7 @@
 #include "patient.h"
 #include "device.h"
 #include "qcustomplot.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,7 +34,15 @@ public slots:
     void update_text_prompt(const QString &text);
     void update_text_CPR(const QString &text);
     void update_text_status(const QString &text);
+    void update_battery_label();
+
+
+
+
 private:
     Ui::MainWindow *ui;
+    //device myDevice;
+    device *myDevice ;
+
 };
 #endif // MAINWINDOW_H

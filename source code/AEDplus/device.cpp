@@ -5,6 +5,9 @@ device::device()
     battery = 100;
     operational = false;
     shockable = false;
+    battery_timer = new QTimer(this);
+    connect(battery_timer, &QTimer::timeout,this, &device::battery_decrease);
+    battery_timer->start(10000);//10s
 };
 device::~device(){};
 
@@ -16,6 +19,24 @@ void device::shock(){
     emit signal_shock();
 
 };
+
+int device::get_battery_capacity(){
+    return battery;
+}
+
+void device::battery_decrease(){
+
+    if (battery >0){
+        battery-=1;
+    }else if (battery ==0){
+        battery_timer->stop();
+    }
+    emit battery_changed();
+    qDebug()<<"battery signal emited";
+}
+
+
+
 void device::init_sequence(){
     QTimer timer ;
 
@@ -40,7 +61,8 @@ void device::display_device_status(){
 void device::detect_rhythm(){
 
 };
-void device::workflow(){
+void device::workflow(){//will connect after display status/when pressed on
+    qDebug()<<"work flow started";
 
 };
 void device::display_good_CPR_feedback(){
@@ -63,7 +85,7 @@ void device::display_prompt(){
         emit text_prompt_update("stand clear, do not touch patient. shock will be diliver as press the 'Shock' button.");
     }
 
-};
+}
 
 void device::display_good_electrode(){
     qDebug()<<"good electrode";
