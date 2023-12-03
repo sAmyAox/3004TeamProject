@@ -226,6 +226,20 @@ void device::temp()
     }
 }
 
+void device::heart_rhythm_analysis(int heartRate){
+    if (operational == false){
+        return;
+    }
+    if (heartRate < 60 || heartRate > 100){
+        shockable = true;
+        emit text_prompt_update("Shockable heart rhythm detected, STAND CLEAR and press 'shock'.")
+    }
+    else{
+        shockable = false;
+        emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock")
+    }
+}
+
 void device::shut_down()
 {
     // stop all timer,

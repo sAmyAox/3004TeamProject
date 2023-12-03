@@ -27,7 +27,7 @@ public:
 
     void get_patient_status();//get patient's heart rate and vf.
     int get_battery_capacity();//get battery's capacity, for update battery label
-
+    //int get_patient_heart_rhythm();//get patient's heart rhythm.
 
     void shock();//deliver shock to patient
     void display_device_status();//show status when the device turned on
@@ -41,7 +41,7 @@ public:
     void display_good_electrode();
     void init_sequence();//member function for init the divece, and wait for 3s to start the device
     void battery_decrease();//function for battery capacity goes down.
-
+    void heart_rhythm_analysis(int heartRate);//compare the heart rhythm of patient with the shockable heart rhythm.
     friend class MainWindow;
 
 
