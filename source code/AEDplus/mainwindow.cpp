@@ -44,15 +44,6 @@ void MainWindow::update_battery_label(){
 }
 
 
-
-
-
-
-
-
-
-
-
 void MainWindow::update_text_prompt(const QString &text){
     ui->text_prompt->setText(text);
 }

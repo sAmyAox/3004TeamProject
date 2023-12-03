@@ -16,7 +16,10 @@ private:
     int battery;
     bool operational;//if =false(didn;t press on), no respose, check before each function?
     bool shockable;//if shockable==true, then wait for the button_shock,else display prompt, ask for CPR
+    int state; //0 = no power, 1="on" pressed, 2=electrode button pressed,3=aftershock,4=after CPR
     QTimer *battery_timer;
+    QTimer *init_timer;
+    QTimer *rhythm_analysis_timer;
 
 public:
     device(/* args */);
@@ -33,7 +36,7 @@ public:
     void display_bad_CPR_feedback();//when pressed button, tell user if it is bad or good.
     void display_good_CPR_feedback();//when pressed button, tell user if it is bad or good.
     //void error_mode();//if the device wait for too long, enter error mode.(asking to give CPR)
-    void display_prompt();//maybe qstring?
+    //void display_prompt();//maybe qstring?
     void display_bad_electrode();
     void display_good_electrode();
     void init_sequence();//member function for init the divece, and wait for 3s to start the device
@@ -48,9 +51,11 @@ signals:
     void text_status_update(const QString &str);
     void signal_shock();
     void battery_changed();
+    //void shut_down();
 
 public slots:
     void debug();
+    void temp();
 
 
 
