@@ -1,138 +1,153 @@
 #include "device.h"
 
-device::device()//need update instructions
+device::device() // need update instructions
 {
     battery = 100;
     operational = false;
     shockable = false;
     state = 0;
-    //create a battery timer for auto decrease feature.
+    // create a battery timer for auto decrease feature.
     battery_timer = new QTimer(this);
-    connect(battery_timer, &QTimer::timeout,this, &device::battery_decrease);
+    connect(battery_timer, &QTimer::timeout, this, &device::battery_decrease);
 
-
-    //create a timer for work flow , 1 time feature.
+    // create a timer for work flow , 1 time feature.
     init_timer = new QTimer(this);
-    connect(init_timer, &QTimer::timeout,this, &device::display_device_status);
-    connect(init_timer, &QTimer::timeout,this, &device::workflow);
+    connect(init_timer, &QTimer::timeout, this, &device::display_device_status);
+    connect(init_timer, &QTimer::timeout, this, &device::workflow);
     init_timer->setSingleShot(true);
 
-    //create a timer for rhythm analysis , 1 time feature.
+    // create a timer for rhythm analysis , 1 time feature.
     rhythm_analysis_timer = new QTimer(this);
-    connect(rhythm_analysis_timer, &QTimer::timeout,this, &device::temp);
+    connect(rhythm_analysis_timer, &QTimer::timeout, this, &device::temp);
     rhythm_analysis_timer->setSingleShot(true);
-
 };
 device::~device(){};
 
 void device::get_patient_status(){
 
 };
-void device::shock(){
-    //success senario
-    if(battery>=15 && shockable==true && state==2){
-        qDebug()<<"shock";
+void device::shock()
+{
+    // success senario
+    if (battery >= 15 && shockable == true && state == 2)
+    {
+        qDebug() << "shock";
         emit signal_shock();
-        battery-=15;
+        battery -= 15;
         emit battery_changed();
         emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives");
         shockable = false;
-        state=3;
-    //fail
-    }else if (shockable == true&&battery<15){
+        state = 3;
+        // fail
+    }
+    else if (shockable == true && battery < 15)
+    {
         emit text_status_update("not enough battery lefted to diliver a shock.\n\nPlease seek medical instruction.");
-    }else if (shockable == false&&state == 1){//just turn the divice on, no pads
+    }
+    else if (shockable == false && state == 1)
+    { // just turn the divice on, no pads
         emit text_status_update("please attach electrode pads before diliver a shock.");
-    }else if (shockable == false&&state == 3){//shocked already
+    }
+    else if (shockable == false && state == 3)
+    { // shocked already
         emit text_status_update("already dilivered a shock");
     }
-
-
 };
 
-int device::get_battery_capacity(){
+int device::get_battery_capacity()
+{
     return battery;
 }
 
-void device::battery_decrease(){
+void device::battery_decrease()
+{
 
-    if (battery >10&&operational == true){
-        battery-=1;
-    }else if (battery <= 10&&operational == true &&battery>=1){
-        battery -=1;
+    if (battery > 10 && operational == true)
+    {
+        battery -= 1;
+    }
+    else if (battery <= 10 && operational == true && battery >= 1)
+    {
+        battery -= 1;
         emit text_status_update("battery less then 10%, not able to diliver shock");
-
-    }else if(battery ==0&&operational == true){
+    }
+    else if (battery == 0 && operational == true)
+    {
         battery_timer->stop();
-        //shut_down();
+        shut_down();
     }
     emit battery_changed();
-    qDebug()<<"battery signal emited, auto decrease by 1%";
+    qDebug() << "battery signal emited, auto decrease by 1%";
 }
 
+void device::init_sequence()
+{
 
-
-void device::init_sequence(){
-
-    if(operational==false){
+    if (operational == false)
+    {
         operational = true;
-        state=1;
-        qDebug()<<"operational set to true";
+        state = 1;
+        qDebug() << "operational set to true";
 
         emit text_status_update("initializing");
-        qDebug()<<"init";
+        qDebug() << "init";
         emit battery_changed();
-        battery_timer->start(1000);//10s
-        init_timer->start(3000);//3s
-        //display_device_status();
-    }else if(operational == true){
-        operational = false;
-        state=0;
-        qDebug()<<"operational set to false";
-        //shut_down();
+        battery_timer->start(1000); // 10s
+        init_timer->start(3000);    // 3s
+        // display_device_status();
     }
-
+    else if (operational == true)
+    {
+        operational = false;
+        state = 0;
+        qDebug() << "operational set to false";
+        shut_down();
+    }
 }
 
+void device::display_device_status()
+{
 
-void device::display_device_status(){
-
-    //qDebug()<<"waited for 3 second";
-    if(operational == true && state == 1){
-        QString status_message ="status: operational \nbattery remaining: "+QString::number(battery)+"\nCharge/Discharge: functional\nHeart rhythm analysis: functional";
-        //need battery check, able to shock?, analysis?
+    // qDebug()<<"waited for 3 second";
+    if (operational == true && state == 1)
+    {
+        QString status_message = "status: operational \nbattery remaining: " + QString::number(battery) + "\nCharge/Discharge: functional\nHeart rhythm analysis: functional";
+        // need battery check, able to shock?, analysis?
         emit text_status_update(status_message);
-        qDebug()<<"status print";
+        qDebug() << "status print";
     }
-
 }
 void device::detect_rhythm(){
 
 };
-void device::workflow(){//will connect after display status/when pressed on
-    if(state==1){
-        qDebug()<<"work flow started\n";
+void device::workflow()
+{ // will connect after display status/when pressed on
+    if (state == 1)
+    {
+        qDebug() << "work flow started\n";
         const QString message = "Please follow the instruction on electrode pad to place them correctly\n\n\nUnpackage electrode pads and place them to their coresponding place that shows on the instruction.\n\nwaiting for manual input...";
         emit text_prompt_update(message);
 
-
-        //connect to display device status;     ok
-        //display instruction for placeing pads and ask for user's interaction; ok
-        //need more script for button clicked.
-    }// ok
-
+        // connect to display device status;     ok
+        // display instruction for placeing pads and ask for user's interaction; ok
+        // need more script for button clicked.
+    } // ok
 };
-void device::display_good_CPR_feedback(){
-    if(state==3&& operational==true){
-        qDebug()<<"good cpr";
+void device::display_good_CPR_feedback()
+{
+    if (state == 3 && operational == true)
+    {
+        qDebug() << "good cpr";
         emit text_CPR_update("please continue CPR until furthur instructions");
-        state=4;
+        state = 4;
     }
 };
 
-void device::display_bad_CPR_feedback(){
-    if(state==3&& operational==true){
-        qDebug()<<"bad cpr";
+void device::display_bad_CPR_feedback()
+{
+    if (state == 3 && operational == true)
+    {
+        qDebug() << "bad cpr";
         emit text_CPR_update("please follow the instructions while porforming the CPR");
     }
 };
@@ -151,49 +166,76 @@ void device::display_prompt(){
 
 }*/
 
-void device::display_good_electrode(){//if
-    if(operational==false){return;}else if(operational==true&&state==1){
+void device::display_good_electrode()
+{ // if
+    if (operational == false)
+    {
+        return;
+    }
+    else if (operational == true && state == 1)
+    {
         state = 2;
-        qDebug()<<"good electrode";
+        qDebug() << "good electrode";
         emit text_status_update("electrode pad placed correctly ");
         emit text_prompt_update("Please wait for rhythm analysis...");
 
-            //add implementation for result of analysis of heart rhythm here.
-            //continue the work flow here,i.e. shock
-        rhythm_analysis_timer->start(3000);//3s for analysis. connect to another function that uses the result to porform prompt.
+        // add implementation for result of analysis of heart rhythm here.
+        // continue the work flow here,i.e. shock
+        rhythm_analysis_timer->start(3000); // 3s for analysis. connect to another function that uses the result to porform prompt.
     }
 }
 
-void device::display_bad_electrode(){
-    if(operational==false){return;}else if(operational==true&&state==1){
-        qDebug()<<"bad electrode";
+void device::display_bad_electrode()
+{
+    if (operational == false)
+    {
+        return;
+    }
+    else if (operational == true && state == 1)
+    {
+        qDebug() << "bad electrode";
         emit text_status_update("electrode pad placed incorrectly, please follow the instruction");
     }
 }
 
-void device::debug(){
+void device::debug()
+{
 
-    qDebug()<<"debuging";
+    qDebug() << "debuging";
     emit text_prompt_update("lmao");
-    //MainWindow::update_text_prompt("abcde");
+    // MainWindow::update_text_prompt("abcde");
 }
 
-void device::temp(){
-    if(operational==false){return;}
+void device::temp()
+{
+    if (operational == false)
+    {
+        return;
+    }
     bool result = true;
-    if(result){
+    if (result)
+    {
         shockable = true;
         emit text_prompt_update("Shockable rhythm detected, STAND CLEAR and press 'shock'");
         state = 2;
-    }else{
+    }
+    else
+    {
         shockable = false;
         emit text_prompt_update("Rhythm detected but is not suitable for diliver a shock. please seek for medical help immediatly");
     }
 }
-/*
-void device::shut_down(){
-//stop all timer,
-    //clear every text browser(emit("") is fine),
-    //disable every button,
-    //set device status
-}*/
+
+void device::shut_down()
+{
+    // stop all timer,
+    // clear every text browser(emit("") is fine),
+    // disable every button,
+    // set device status
+    operational = false;
+    battery_timer->stop();
+    emit text_status_update("");
+    emit text_prompt_update("");
+    emit text_CPR_update("");
+    state = 0;
+}
