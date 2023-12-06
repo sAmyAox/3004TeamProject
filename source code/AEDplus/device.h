@@ -56,6 +56,13 @@ signals:
     void battery_changed();
 
 
+    //edit dec 6
+    void image_timer_statr();
+    void image_timer_stop();
+    void battery_label_clear();
+    void image_clear();
+
+
 public slots:
     //void debug();
    // void temp();

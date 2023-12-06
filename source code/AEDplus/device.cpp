@@ -187,6 +187,7 @@ void device::display_good_electrode()
         qDebug() << "good electrode";
         emit text_status_update("electrode pad placed correctly ");
         emit text_prompt_update("Please wait for rhythm analysis...");
+        emit image_timer_statr();
 
         // add implementation for result of analysis of heart rhythm here.
         // continue the work flow here,i.e. shock
@@ -261,5 +262,8 @@ void device::shut_down()
     emit text_status_update("");
     emit text_prompt_update("");
     emit text_CPR_update("");
+    emit image_timer_stop();
+    emit battery_label_clear();
+    emit image_clear();
     state = 0;
 }

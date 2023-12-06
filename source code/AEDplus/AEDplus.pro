@@ -12,14 +12,12 @@ SOURCES += \
     device.cpp \
     main.cpp \
     mainwindow.cpp \
-    patient.cpp \
-    qcustomplot.cpp
+    patient.cpp
 
 HEADERS += \
     device.h \
     mainwindow.h \
-    patient.h \
-    qcustomplot.h
+    patient.h
 
 FORMS += \
     mainwindow.ui
@@ -28,3 +26,9 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+
+
+RESOURCES += \
+    resources.qrc

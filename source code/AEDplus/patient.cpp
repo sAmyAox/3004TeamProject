@@ -3,7 +3,7 @@
 patient::patient()
 {
     vf = true;
-    heart_rate = 101;
+    heart_rate = 150;
     // vt = false;
     shocked = false;
 }
