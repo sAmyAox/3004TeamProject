@@ -1,11 +1,12 @@
 #include "device.h"
 
-device::device() // need update instructions
+device::device()
 {
     battery = 100;
     operational = false;
     shockable = false;
     state = 0;
+    myPatient = new patient;
     // create a battery timer for auto decrease feature.
     battery_timer = new QTimer(this);
     connect(battery_timer, &QTimer::timeout, this, &device::battery_decrease);
@@ -18,7 +19,7 @@ device::device() // need update instructions
 
     // create a timer for rhythm analysis , 1 time feature.
     rhythm_analysis_timer = new QTimer(this);
-    connect(rhythm_analysis_timer, &QTimer::timeout, this, &device::temp);
+    connect(rhythm_analysis_timer, &QTimer::timeout, this, &device::heart_rhythm_analysis);
     rhythm_analysis_timer->setSingleShot(true);
 };
 device::~device(){};
@@ -32,7 +33,9 @@ void device::shock()
     if (battery >= 15 && shockable == true && state == 2)
     {
         qDebug() << "shock";
-        emit signal_shock();
+        myPatient->set_status();
+        qDebug()<<"patient's heart rate is"<<myPatient->get_heart_rate();
+        qDebug()<<"patient's shock status is "<<myPatient->get_shock_status();
         battery -= 15;
         emit battery_changed();
         emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives");
@@ -92,7 +95,7 @@ void device::init_sequence()
         emit text_status_update("initializing");
         qDebug() << "init";
         emit battery_changed();
-        battery_timer->start(1000); // 10s
+        battery_timer->start(5000); // 10s
         init_timer->start(3000);    // 3s
         // display_device_status();
     }
@@ -116,10 +119,16 @@ void device::display_device_status()
         emit text_status_update(status_message);
         qDebug() << "status print";
     }
-}
-void device::detect_rhythm(){
+}/*
+int device::detect_rhythm(){
+    if(linked_patient){
+        int HR;
+        HR=linked_patient->get_heart_rate();
+        return HR;
+        qDebug()<<"heart rate is"<<HR;
+    }
+}*/
 
-};
 void device::workflow()
 { // will connect after display status/when pressed on
     if (state == 1)
@@ -197,7 +206,7 @@ void device::display_bad_electrode()
         emit text_status_update("electrode pad placed incorrectly, please follow the instruction");
     }
 }
-
+/*
 void device::debug()
 {
 
@@ -224,19 +233,20 @@ void device::temp()
         shockable = false;
         emit text_prompt_update("Rhythm detected but is not suitable for diliver a shock. please seek for medical help immediatly");
     }
-}
+}*/
 
-void device::heart_rhythm_analysis(int heartRate){
+void device::heart_rhythm_analysis(){
     if (operational == false){
         return;
     }
-    if (heartRate < 60 || heartRate > 100){
+    qDebug()<<"from HRA";
+    if ((myPatient->get_heart_rate() < 50 || myPatient->get_heart_rate() > 120)||myPatient->get_vf()==true){
         shockable = true;
-        emit text_prompt_update("Shockable heart rhythm detected, STAND CLEAR and press 'shock'.")
+        emit text_prompt_update("Shockable heart rhythm detected, STAND CLEAR and press 'shock'.");
     }
     else{
         shockable = false;
-        emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock")
+        emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock");
     }
 }
 

@@ -43,6 +43,7 @@ private:
     Ui::MainWindow *ui;
     //device myDevice;
     device *myDevice ;
+   // patient *myPatient;
 
 };
 #endif // MAINWINDOW_H

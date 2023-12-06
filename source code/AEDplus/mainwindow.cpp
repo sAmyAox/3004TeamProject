@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    patient *myPatient = new patient;
-    myDevice=new device;
+   // myPatient = new patient;
+    myDevice = new device;
 
     connect(ui->button_on,&QPushButton::pressed,myDevice,&device::init_sequence);
     connect(ui->button_shock,&QPushButton::pressed,myDevice,&device::shock);
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(myDevice,&device::text_prompt_update,this,&MainWindow::update_text_prompt);
     connect(myDevice,&device::text_CPR_update,this,&MainWindow::update_text_CPR);
     connect(myDevice,&device::text_status_update,this,&MainWindow::update_text_status);
-    connect(myDevice,&device::signal_shock,myPatient,&patient::set_status);
+    //connect(myDevice,&device::signal_shock,myPatient,&patient::set_status);
 
     connect(myDevice, &device::battery_changed,this,&MainWindow::update_battery_label);
 
@@ -32,6 +32,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete myDevice;
+    //delete myPatient;
 }
 
 

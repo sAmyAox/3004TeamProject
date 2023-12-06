@@ -20,9 +20,10 @@ private:
     QTimer *battery_timer;
     QTimer *init_timer;
     QTimer *rhythm_analysis_timer;
+    patient *myPatient;
 
 public:
-    device(/* args */);
+    device();
     ~device();
 
     void get_patient_status();//get patient's heart rate and vf.
@@ -31,7 +32,8 @@ public:
 
     void shock();//deliver shock to patient
     void display_device_status();//show status when the device turned on
-    void detect_rhythm();//getter for patient's heart rhythm
+    int detect_rhythm();//getter for patient's heart rhythm
+
     void workflow();//init for patients and blabla.
     void display_bad_CPR_feedback();//when pressed button, tell user if it is bad or good.
     void display_good_CPR_feedback();//when pressed button, tell user if it is bad or good.
@@ -41,8 +43,9 @@ public:
     void display_good_electrode();
     void init_sequence();//member function for init the divece, and wait for 3s to start the device
     void battery_decrease();//function for battery capacity goes down.
-    void heart_rhythm_analysis(int heartRate);//compare the heart rhythm of patient with the shockable heart rhythm.
+    void heart_rhythm_analysis();//compare the heart rhythm of patient with the shockable heart rhythm.
     friend class MainWindow;
+    void shut_down();
 
 
 signals:
@@ -51,11 +54,11 @@ signals:
     void text_status_update(const QString &str);
     void signal_shock();
     void battery_changed();
-    //void shut_down();
+
 
 public slots:
-    void debug();
-    void temp();
+    //void debug();
+   // void temp();
 
 
 

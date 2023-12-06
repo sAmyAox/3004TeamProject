@@ -21,9 +21,14 @@ public:
     ~patient();
 
     void set_status();
+    int get_heart_rate();
+    bool get_vf();
+    bool get_shock_status();
 
 signals:
     void signal_shocked();
+    void signal_heart_rate(int heart_rate);
+    void signal_vf(bool vf);
 public slots:
 
 
