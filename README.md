@@ -1,6 +1,23 @@
 # 3004TeamProject
 a 3004 team project by Wei-da Tseng, Haofan Liu, Ahmed Magzoub, Wentian Yao
 a simulation for an AED device.
+files:
+heartrate_graph/none.png
+heartrate_graph/VF.png
+heartrate_graph/VTpng.png
+heartrate_graph/normal.png
+AEDplus.pro
+AEDplus.pro.user
+device.h
+device.cpp
+main.cpp
+mainwindow.cpp
+mainwindow.h
+mainwindow.ui
+patient.cpp
+patient.h
+resources.qrc
+
 
 works done:
 
@@ -68,5 +85,7 @@ usecases
 code:elerything lefted e.g. methods, signal, slots, parameters, testing
 
 final version of：
+
 code
+
 ------------------
