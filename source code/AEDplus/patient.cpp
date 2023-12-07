@@ -28,3 +28,13 @@ bool patient::get_vf(){
 bool patient::get_shock_status(){
     return this->shocked;
 }
+
+void patient::set_heart_rate(int input){
+    this->heart_rate = input;
+    qDebug()<<"now patient's heart rate is:"<<heart_rate;
+}
+void patient::set_vf(bool input){
+    this->vf = input;
+    qDebug()<<"now patient's vf status is:"<<vf;
+}
+

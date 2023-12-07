@@ -19,6 +19,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void select_image();
+
 signals:
 
 
@@ -41,6 +43,11 @@ public slots:
     void timer_start();
     void timer_stop();
     void image_stop();
+
+    void input_patient();
+    void vf_true_input();
+    void vf_false_input();
+
 
 
 private:

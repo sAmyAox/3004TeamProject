@@ -41,6 +41,7 @@ void device::shock()
         emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives");
         shockable = false;
         state = 3;
+        emit image_select();
         // fail
     }
     else if (shockable == true && battery < 15)

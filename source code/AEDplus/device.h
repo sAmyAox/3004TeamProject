@@ -61,6 +61,7 @@ signals:
     void image_timer_stop();
     void battery_label_clear();
     void image_clear();
+    void image_select();
 
 
 public slots:

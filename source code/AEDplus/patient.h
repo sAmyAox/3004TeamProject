@@ -25,6 +25,9 @@ public:
     bool get_vf();
     bool get_shock_status();
 
+    void set_heart_rate(int);
+    void set_vf(bool);
+
 signals:
     void signal_shocked();
     void signal_heart_rate(int heart_rate);

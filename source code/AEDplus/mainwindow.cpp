@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->button_bad_CPR,&QPushButton::pressed,myDevice,&device::display_bad_CPR_feedback);
     connect(ui->button_bad_electrode,&QPushButton::pressed,myDevice,&device::display_bad_electrode);
     connect(ui->button_good_electrode,&QPushButton::pressed,myDevice,&device::display_good_electrode);
+    //update
+    connect(ui->vf_true,&QPushButton::pressed,this,&MainWindow::vf_true_input);
+    connect(ui->vf_false,&QPushButton::pressed,this,&MainWindow::vf_false_input);
+    connect(ui->heart_rate_input,&QLineEdit::editingFinished,this,&MainWindow::input_patient);
+
 
     connect(myDevice,&device::text_prompt_update,this,&MainWindow::update_text_prompt);
     connect(myDevice,&device::text_CPR_update,this,&MainWindow::update_text_CPR);
@@ -31,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, &QTimer::timeout,this,&MainWindow::update_image);
     connect(myDevice,&device::image_timer_statr,this,&MainWindow::timer_start);
     connect(myDevice,&device::image_timer_stop,this,&MainWindow::timer_stop);
+    connect(myDevice,&device::image_select,this,&MainWindow::select_image);
 
 
 
@@ -43,17 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     max_length = 500;
     max_height = 200;
 
-
-
-    if(myDevice->myPatient->get_shock_status()==false && myDevice->myPatient->get_vf()==true){
-        myPixmap.load(":/heartrate_graph/VF.png");
-        qDebug()<<"loading vf";
-    }else if(myDevice->myPatient->get_shock_status()==false &&myDevice->myPatient->get_heart_rate()>120){
-        myPixmap.load(":/heartrate_graph/VTpng.png");
-        qDebug()<<"loading vt";
-    }
-
-    origin_length = myPixmap.width();
+    select_image();
 
     QPixmap graph = myPixmap.copy(startingX,startingY,cur_length,cur_height);
     ui->ecg_graph->setPixmap(graph);
@@ -120,31 +116,77 @@ void MainWindow::update_image(){
     //ui->ecg_graph->setScaledContents(true);
 
     //updating starting x and y with timer, then copy and set.
-    int x = origin_length;
+    //int x = origin_length;
 
     if(cur_length < max_length){
         cur_length+=100;
         qDebug()<<"cur length:"<<cur_length;
 
         qDebug()<<"cur_length <= max_length";
-        x -=cur_length;
+        //x -=cur_length;
 
-        QPixmap updated = myPixmap.copy(x,0,cur_length,cur_height);
+        QPixmap updated = myPixmap.copy(origin_length-cur_length,0,cur_length,cur_height);
         ui->ecg_graph->setPixmap(updated);
-        qDebug()<<"updated graph from x:"<<x<<" and length of "<<cur_length;
+        qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
     }else if(cur_length>max_length){
 
         cur_length+=100;
         qDebug()<<"cur length:"<<cur_length;
 
         qDebug()<<"cur_length > max_length";
-        x -=cur_length;
+        //x -=cur_length;
 
-        QPixmap updated = myPixmap.copy(x,0,max_length,max_height);
+        QPixmap updated = myPixmap.copy(origin_length-cur_length,0,max_length,max_height);
         ui->ecg_graph->setPixmap(updated);
-        qDebug()<<"updated graph from x:"<<x<<" and length of "<<cur_length;
+        qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
 
     }
 }
 //implementation of switch images:
+void MainWindow::select_image(){
+    /*myPixmap.load(":/heartrate_graph/normal.png");
+    qDebug()<<"loading normal";
+    origin_length = myPixmap.width();
+    qDebug()<<"original length = "<<origin_length;*/
+
+    if(myDevice->myPatient->get_shock_status()==false && myDevice->myPatient->get_vf()==true){
+        myPixmap.load(":/heartrate_graph/VF.png");
+        qDebug()<<"loading vf";
+        origin_length = myPixmap.width();
+        qDebug()<<"current length = "<<cur_length;
+        qDebug()<<"origin length = "<<origin_length;
+        //update_image();
+    }else if(myDevice->myPatient->get_shock_status()==false &&myDevice->myPatient->get_heart_rate()>120){
+        myPixmap.load(":/heartrate_graph/VTpng.png");
+        origin_length = myPixmap.width();
+        qDebug()<<"current length = "<<cur_length;
+        qDebug()<<"loading vt";
+        qDebug()<<"origin length = "<<origin_length;
+        //update_image();
+    }else if(myDevice->myPatient->get_shock_status()==true){
+        myPixmap.load(":/heartrate_graph/normal.png");
+        qDebug()<<"loading normal";
+        origin_length = myPixmap.width();
+        qDebug()<<"current length = "<<cur_length;
+        qDebug()<<"origin length = "<<origin_length;
+        //update_image();
+        //cur_length = myPixmap.width();
+    }
+}
+
+void MainWindow::input_patient(){
+    QString user_input = ui->heart_rate_input->text();
+    myDevice->myPatient->set_heart_rate(user_input.toInt());
+    select_image();
+}
+
+void MainWindow::vf_false_input(){
+    myDevice->myPatient->set_vf(false);
+    select_image();
+}
+
+void MainWindow::vf_true_input(){
+    myDevice->myPatient->set_vf(true);
+    select_image();
+}
 //also implement the animation here
