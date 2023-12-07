@@ -12,7 +12,7 @@ patient::~patient()
 {
 }
 
-void patient::set_status(){//random num
+void patient::set_status(){
     this->shocked = true;
     qDebug()<<"set shocked to true";
 }

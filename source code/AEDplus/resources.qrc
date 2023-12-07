@@ -4,5 +4,6 @@
         <file>heartrate_graph/normal.png</file>
         <file>heartrate_graph/VF.png</file>
         <file>heartrate_graph/VTpng.png</file>
+
     </qresource>
 </RCC>

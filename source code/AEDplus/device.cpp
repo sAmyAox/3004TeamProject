@@ -38,10 +38,11 @@ void device::shock()
         qDebug()<<"patient's shock status is "<<myPatient->get_shock_status();
         battery -= 15;
         emit battery_changed();
-        emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives");
+        emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives\nGive 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression\n give 2 breathes after 30 compression\n");
         shockable = false;
         state = 3;
         emit image_select();
+        //emit text_CPR_update("Give 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression\n give 2 breathes after 30 compression\n");
         // fail
     }
     else if (shockable == true && battery < 15)
@@ -96,7 +97,7 @@ void device::init_sequence()
         emit text_status_update("initializing");
         qDebug() << "init";
         emit battery_changed();
-        battery_timer->start(5000); // 10s
+        battery_timer->start(5000); // 5s
         init_timer->start(3000);    // 3s
         // display_device_status();
     }
@@ -112,36 +113,29 @@ void device::init_sequence()
 void device::display_device_status()
 {
 
-    // qDebug()<<"waited for 3 second";
+
     if (operational == true && state == 1)
     {
         QString status_message = "status: operational \nbattery remaining: " + QString::number(battery) + "\nCharge/Discharge: functional\nHeart rhythm analysis: functional";
-        // need battery check, able to shock?, analysis?
+
         emit text_status_update(status_message);
         qDebug() << "status print";
     }
-}/*
-int device::detect_rhythm(){
-    if(linked_patient){
-        int HR;
-        HR=linked_patient->get_heart_rate();
-        return HR;
-        qDebug()<<"heart rate is"<<HR;
-    }
-}*/
+}
 
-void device::workflow()
-{ // will connect after display status/when pressed on
+void device::workflow(){ // will connect after display status/when pressed on
     if (state == 1)
     {
         qDebug() << "work flow started\n";
-        const QString message = "Please follow the instruction on electrode pad to place them correctly\n\n\nUnpackage electrode pads and place them to their coresponding place that shows on the instruction.\n\nwaiting for manual input...";
+        const QString message = "Place one pad on the right side of the chest, on the area just below the collarbone. \nPlace the other pad on the lower left side of the chest, underneath the armpit area.\n\n\nwaiting for manual input...";
+
         emit text_prompt_update(message);
+
 
         // connect to display device status;     ok
         // display instruction for placeing pads and ask for user's interaction; ok
-        // need more script for button clicked.
-    } // ok
+
+    }
 };
 void device::display_good_CPR_feedback()
 {
@@ -158,23 +152,10 @@ void device::display_bad_CPR_feedback()
     if (state == 3 && operational == true)
     {
         qDebug() << "bad cpr";
-        emit text_CPR_update("please follow the instructions while porforming the CPR");
+        emit text_CPR_update("please follow the instruction to give CPR");
+        //emit text_CPR_update("Give 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression");
     }
 };
-/*
-void device::display_prompt(){
-    if(operational==false){return;}
-
-    qDebug()<<"prompting";
-    emit text_prompt_update("display prompts");
-
-    if (shockable==false){
-        emit text_prompt_update("patient is not suitable for dilivering a shock, please seek medical help immediately");
-    }else if(shockable == true){
-        emit text_prompt_update("stand clear, do not touch patient. shock will be diliver as press the 'Shock' button.");
-    }
-
-}*/
 
 void device::display_good_electrode()
 { // if
@@ -190,8 +171,6 @@ void device::display_good_electrode()
         emit text_prompt_update("Please wait for rhythm analysis...");
         emit image_timer_statr();
 
-        // add implementation for result of analysis of heart rhythm here.
-        // continue the work flow here,i.e. shock
         rhythm_analysis_timer->start(3000); // 3s for analysis. connect to another function that uses the result to porform prompt.
     }
 }
@@ -208,34 +187,6 @@ void device::display_bad_electrode()
         emit text_status_update("electrode pad placed incorrectly, please follow the instruction");
     }
 }
-/*
-void device::debug()
-{
-
-    qDebug() << "debuging";
-    emit text_prompt_update("lmao");
-    // MainWindow::update_text_prompt("abcde");
-}
-
-void device::temp()
-{
-    if (operational == false)
-    {
-        return;
-    }
-    bool result = true;
-    if (result)
-    {
-        shockable = true;
-        emit text_prompt_update("Shockable rhythm detected, STAND CLEAR and press 'shock'");
-        state = 2;
-    }
-    else
-    {
-        shockable = false;
-        emit text_prompt_update("Rhythm detected but is not suitable for diliver a shock. please seek for medical help immediatly");
-    }
-}*/
 
 void device::heart_rhythm_analysis(){
     if (operational == false){

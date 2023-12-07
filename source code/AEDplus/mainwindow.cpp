@@ -61,6 +61,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete myDevice;
+    delete timer;
     //delete myPatient;
 }
 
@@ -85,9 +86,6 @@ void MainWindow::update_text_CPR(const QString &text){
 void MainWindow::update_text_status(const QString &text){
     ui->text_device_status->setText(text);
 }
-/*void MainWindow::button_clicked_on(){
-    emit signal1();
-}*/
 
 void MainWindow::battery_shut_down(){
     ui->batterylabel->setText("battery:  %");
@@ -189,4 +187,4 @@ void MainWindow::vf_true_input(){
     myDevice->myPatient->set_vf(true);
     select_image();
 }
-//also implement the animation here
+

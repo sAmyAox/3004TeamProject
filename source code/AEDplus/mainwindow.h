@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "patient.h"
+//#include "patient.h"
 #include "device.h"
 #include <QTimer>
 #include <QPixmap>
