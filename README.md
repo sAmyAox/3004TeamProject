@@ -1,4 +1,5 @@
 # 3004TeamProject
+
 a 3004 team project by Wei-da Tseng, Haofan Liu, Ahmed Magzoub, Wentian Yao
 a simulation for an AED device.
 files:
@@ -18,7 +19,6 @@ patient.cpp
 patient.h
 resources.qrc
 
-
 works done:
 
 Wei-da Tseng
@@ -29,19 +29,20 @@ sequence diagram
 state diagram
 usecases
 
-code:shut_down() 
+code:shut_down()
 code:patient device constructors and starting file
-code: inheritance of classes
-code: implementation method for functions
+code:implementation method for functions, inheritance of classes
+suggestion of how to code some of the tasks, testing and debugging
 
 final version of：
 usecases
 UML
 sequence diagram
-code:shut_down() 
+code:shut_down()
 code: inheritance of classes
 
-------------------
+---
+
 Haofan Liu
 
 prototype of:
@@ -57,8 +58,8 @@ final version of：
 state diagram
 code:istruction for electrode placement
 
+---
 
-------------------
 Ahmed Magzoub
 
 prototype of:
@@ -73,7 +74,8 @@ code:ECG diagram
 final version of：
 code:instructions for CPR
 
-------------------
+---
+
 Wentian Yao
 
 prototype of:
@@ -89,4 +91,4 @@ final version of：
 code
 RTM
 
-------------------
+---
