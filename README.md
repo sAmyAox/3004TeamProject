@@ -73,6 +73,7 @@ code:ECG diagram
 
 final version of：
 code:instructions for CPR
+sequence diagram
 
 ---
 
