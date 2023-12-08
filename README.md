@@ -37,7 +37,6 @@ suggestion of how to code some of the tasks, testing and debugging
 final version of：
 usecases
 UML
-sequence diagram
 code:shut_down()
 code: inheritance of classes
 
