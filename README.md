@@ -39,6 +39,7 @@ usecases
 UML
 code:shut_down()
 code: inheritance of classes
+sequence diagram
 
 ---
 
@@ -56,6 +57,7 @@ code:istruction for electrode placement
 final version of：
 state diagram
 code:istruction for electrode placement
+sequence diagram
 
 ---
 
@@ -88,7 +90,8 @@ code:elerything lefted e.g. methods, signal, slots, parameters, testing
 
 final version of：
 
-code
+codes 
 RTM
+sequence diagram
 
 ---
