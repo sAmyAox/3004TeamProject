@@ -44,7 +44,7 @@ void device::shock()
         battery -= 15;
         emit battery_changed();
         qDebug() << "'audio prompt'";
-        emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives\nGive 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression\n give 2 breathes after 30 compression\n");
+        emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives\nGive 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression\n give 30 compression and 2 breathes\n");
         shockable = false;
         state = 3;
         emit image_select();
