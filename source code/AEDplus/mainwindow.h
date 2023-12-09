@@ -24,6 +24,7 @@ public:
 signals:
 
 
+
 public slots:
     /*
 
@@ -47,6 +48,10 @@ public slots:
     void input_patient();
     void vf_true_input();
     void vf_false_input();
+
+    //update dec8
+
+
 
 
 

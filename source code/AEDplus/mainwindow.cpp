@@ -39,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(myDevice,&device::image_select,this,&MainWindow::select_image);
 
 
+    //update dec.8
+    connect(ui->button_breath,&QPushButton::pressed,myDevice,&device::on_press_breath);
+    connect(ui->button_chest,&QPushButton::pressed,myDevice,&device::on_press_chest);
+
 
 
        //handle ecg:
@@ -71,7 +75,6 @@ void MainWindow::update_battery_label(){
     int battery = myDevice->get_battery_capacity();
 
     ui->batterylabel->setText("battery: "+QString::number(battery)+"%");
-    qDebug()<<"update battery capacity by getter function";
 }
 
 
@@ -118,25 +121,25 @@ void MainWindow::update_image(){
 
     if(cur_length < max_length){
         cur_length+=100;
-        qDebug()<<"cur length:"<<cur_length;
+        //qDebug()<<"cur length:"<<cur_length;
 
-        qDebug()<<"cur_length <= max_length";
+        //qDebug()<<"cur_length <= max_length";
         //x -=cur_length;
 
         QPixmap updated = myPixmap.copy(origin_length-cur_length,0,cur_length,cur_height);
         ui->ecg_graph->setPixmap(updated);
-        qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
+        //qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
     }else if(cur_length>max_length){
 
         cur_length+=100;
-        qDebug()<<"cur length:"<<cur_length;
+        //qDebug()<<"cur length:"<<cur_length;
 
-        qDebug()<<"cur_length > max_length";
+        //qDebug()<<"cur_length > max_length";
         //x -=cur_length;
 
         QPixmap updated = myPixmap.copy(origin_length-cur_length,0,max_length,max_height);
         ui->ecg_graph->setPixmap(updated);
-        qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
+        //qDebug()<<"updated graph from x:"<<origin_length-cur_length<<" and length of "<<cur_length;
 
     }
 }
@@ -151,22 +154,22 @@ void MainWindow::select_image(){
         myPixmap.load(":/heartrate_graph/VF.png");
         qDebug()<<"loading vf";
         origin_length = myPixmap.width();
-        qDebug()<<"current length = "<<cur_length;
-        qDebug()<<"origin length = "<<origin_length;
+        //qDebug()<<"current length = "<<cur_length;
+        //qDebug()<<"origin length = "<<origin_length;
         //update_image();
     }else if(myDevice->myPatient->get_shock_status()==false &&myDevice->myPatient->get_heart_rate()>120){
         myPixmap.load(":/heartrate_graph/VTpng.png");
         origin_length = myPixmap.width();
-        qDebug()<<"current length = "<<cur_length;
+        //qDebug()<<"current length = "<<cur_length;
         qDebug()<<"loading vt";
-        qDebug()<<"origin length = "<<origin_length;
+        //qDebug()<<"origin length = "<<origin_length;
         //update_image();
     }else if(myDevice->myPatient->get_shock_status()==true){
         myPixmap.load(":/heartrate_graph/normal.png");
         qDebug()<<"loading normal";
         origin_length = myPixmap.width();
-        qDebug()<<"current length = "<<cur_length;
-        qDebug()<<"origin length = "<<origin_length;
+        //qDebug()<<"current length = "<<cur_length;
+        //qDebug()<<"origin length = "<<origin_length;
         //update_image();
         //cur_length = myPixmap.width();
     }
@@ -188,3 +191,4 @@ void MainWindow::vf_true_input(){
     select_image();
 }
 
+//update dec 8

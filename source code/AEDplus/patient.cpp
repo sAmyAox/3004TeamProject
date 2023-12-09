@@ -15,6 +15,8 @@ patient::~patient()
 void patient::set_status(){
     this->shocked = true;
     qDebug()<<"set shocked to true";
+    heart_rate = 80;
+    vf = false;
 }
 
 int patient::get_heart_rate(){

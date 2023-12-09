@@ -183,6 +183,20 @@ p, li { white-space: pre-wrap; }
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
+           <widget class="QPushButton" name="button_chest">
+            <property name="text">
+             <string>chest conpression</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="button_breath">
+            <property name="text">
+             <string>breath</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="button_good_electrode">
             <property name="text">
              <string>good electrode</string>

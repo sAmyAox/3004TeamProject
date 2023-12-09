@@ -21,6 +21,8 @@ private:
     QTimer *init_timer;
     QTimer *rhythm_analysis_timer;
     patient *myPatient;
+    int counter_chest;
+    int counter_breath;
 
 public:
     device();
@@ -46,6 +48,12 @@ public:
     void heart_rhythm_analysis();//compare the heart rhythm of patient with the shockable heart rhythm.
     friend class MainWindow;
     void shut_down();
+
+    //update
+    void cpr_analysis(int chest,int breath);
+    void on_press_breath();
+    void on_press_chest();
+
 
 
 signals:

@@ -1,7 +1,12 @@
 #include "device.h"
 
 device::device()
-{
+{   //update
+    counter_breath = 0;
+    counter_chest = 0;
+
+
+    //update above
     battery = 100;
     operational = false;
     shockable = false;
@@ -38,6 +43,7 @@ void device::shock()
         qDebug()<<"patient's shock status is "<<myPatient->get_shock_status();
         battery -= 15;
         emit battery_changed();
+        qDebug() << "'audio prompt'";
         emit text_prompt_update("Shock dilivered\n\nPlease follow the instruction to perform CPR until medical help arrives\nGive 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression\n give 2 breathes after 30 compression\n");
         shockable = false;
         state = 3;
@@ -48,14 +54,17 @@ void device::shock()
     else if (shockable == true && battery < 15)
     {
         emit text_status_update("not enough battery lefted to diliver a shock.\n\nPlease seek medical instruction.");
+        qDebug() << "'audio prompt'";
     }
     else if (shockable == false && state == 1)
     { // just turn the divice on, no pads
         emit text_status_update("please attach electrode pads before diliver a shock.");
+        qDebug() << "'audio prompt'";
     }
     else if (shockable == false && state == 3)
     { // shocked already
         emit text_status_update("already dilivered a shock");
+        qDebug() << "'audio prompt'";
     }
 };
 
@@ -75,6 +84,7 @@ void device::battery_decrease()
     {
         battery -= 1;
         emit text_status_update("battery less then 10%, not able to diliver shock");
+        qDebug() << "'audio prompt'";
     }
     else if (battery == 0 && operational == true)
     {
@@ -128,7 +138,7 @@ void device::workflow(){ // will connect after display status/when pressed on
     {
         qDebug() << "work flow started\n";
         const QString message = "Place one pad on the right side of the chest, on the area just below the collarbone. \nPlace the other pad on the lower left side of the chest, underneath the armpit area.\n\n\nwaiting for manual input...";
-
+        qDebug() << "'audio prompt'";
         emit text_prompt_update(message);
 
 
@@ -143,6 +153,7 @@ void device::display_good_CPR_feedback()
     {
         qDebug() << "good cpr";
         emit text_CPR_update("please continue CPR until furthur instructions");
+        qDebug() << "'audio prompt'";
         state = 4;
     }
 };
@@ -153,6 +164,7 @@ void device::display_bad_CPR_feedback()
     {
         qDebug() << "bad cpr";
         emit text_CPR_update("please follow the instruction to give CPR");
+        qDebug() << "'audio prompt'";
         //emit text_CPR_update("Give 30 chest compressions\nHand position: Two hands centered on the chest\nBody position: Shoulders directly over hands; elbows locked\nDepth: At least 2 inches\nRate: 100 to 120 per minute\nAllow chest to return to normal position after each compression");
     }
 };
@@ -169,6 +181,7 @@ void device::display_good_electrode()
         qDebug() << "good electrode";
         emit text_status_update("electrode pad placed correctly ");
         emit text_prompt_update("Please wait for rhythm analysis...");
+        qDebug() << "'audio prompt'";
         emit image_timer_statr();
 
         rhythm_analysis_timer->start(3000); // 3s for analysis. connect to another function that uses the result to porform prompt.
@@ -185,6 +198,7 @@ void device::display_bad_electrode()
     {
         qDebug() << "bad electrode";
         emit text_status_update("electrode pad placed incorrectly, please follow the instruction");
+        qDebug() << "'audio prompt'";
     }
 }
 
@@ -196,10 +210,12 @@ void device::heart_rhythm_analysis(){
     if ((myPatient->get_heart_rate() < 50 || myPatient->get_heart_rate() > 120)||myPatient->get_vf()==true){
         shockable = true;
         emit text_prompt_update("Shockable heart rhythm detected, STAND CLEAR and press 'shock'.");
+        qDebug() << "'audio prompt'";
     }
     else{
         shockable = false;
         emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock");
+        qDebug() << "'audio prompt'";
     }
 }
 
@@ -218,4 +234,59 @@ void device::shut_down()
     emit battery_label_clear();
     emit image_clear();
     state = 0;
+}
+//update
+
+void device::cpr_analysis(int chest, int breath){
+    counter_chest+=chest;
+    counter_breath+=breath;
+    qDebug()<<"counter chest: "<<counter_chest<<"  counter breath"<<counter_breath;
+    QString message = "breath count = "+QString::number(counter_breath)+"\nchest compression count = "+QString::number(counter_chest);
+
+    text_CPR_update(message);
+    if (counter_chest == 30&&counter_breath==2){
+        qDebug()<<"good cpr";
+        qDebug() << "'audio prompt'";
+        counter_breath=0;
+        counter_chest = 0;
+        display_good_CPR_feedback();
+    }else if(counter_chest<30 && counter_breath>0){
+        qDebug()<<"less than 30 press";
+        qDebug() << "'audio prompt'";
+        counter_breath=0;
+        counter_chest = 0;
+        //text_CPR_update("Please start again and give chest compressions");
+        display_bad_CPR_feedback();
+    }else if(counter_chest==30&&counter_breath>2){
+        counter_breath=0;
+        counter_chest = 0;
+        //text_CPR_update("Please start again and give chest compressions");
+        qDebug()<<"more than 2 breath";
+        qDebug() << "'audio prompt'";
+        display_bad_CPR_feedback();
+    }else if (counter_chest>30){
+        counter_breath=0;
+        counter_chest = 0;
+        //text_CPR_update("Please start again and give chest compressions");
+        qDebug()<<"more than 30 chest press";
+        qDebug() << "'audio prompt'";
+        display_bad_CPR_feedback();
+    }
+    //counter_breath
+}
+
+void device::on_press_breath(){
+    if (state == 3 && operational == true){
+        qDebug()<<"breath add";
+        cpr_analysis(0,1);
+
+    }
+
+}
+void device::on_press_chest(){
+    if (state == 3 && operational == true){
+        qDebug()<<"chest add";
+        cpr_analysis(1,0);
+
+    }
 }
