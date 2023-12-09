@@ -28,18 +28,18 @@ UML
 sequence diagram
 state diagram
 usecases
+Textual explanation of your design decisions
 
 code:shut_down()
 code:patient device constructors and starting file
-code:implementation method for functions, inheritance of classes
-suggestion of how to code some of the tasks, testing and debugging
 
 final version of：
 usecases
 UML
+sequence diagrams
 code:shut_down()
-code: inheritance of classes
-sequence diagram
+code:implementation method for functions, inheritance of classes
+,suggestion of how to code some of the tasks, testing and debugging
 
 ---
 
@@ -90,7 +90,7 @@ code:elerything lefted e.g. methods, signal, slots, parameters, testing
 
 final version of：
 
-codes 
+codes
 RTM
 sequence diagram
 
