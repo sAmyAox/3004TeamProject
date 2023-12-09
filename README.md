@@ -2,6 +2,10 @@
 
 a 3004 team project by Wei-da Tseng, Haofan Liu, Ahmed Magzoub, Wentian Yao
 a simulation for an AED device.
+
+demo vedio link: 
+https://youtu.be/lQWwF-F-vqM
+
 files:
 heartrate_graph/none.png
 heartrate_graph/VF.png
