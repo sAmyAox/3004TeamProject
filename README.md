@@ -5,6 +5,7 @@ a simulation for an AED device.
 
 demo vedio link: 
 https://youtu.be/lQWwF-F-vqM
+addtional features demos: https://youtu.be/b2ttbd5LX1w
 
 files:
 heartrate_graph/none.png
