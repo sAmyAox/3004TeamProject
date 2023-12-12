@@ -206,7 +206,7 @@ void device::heart_rhythm_analysis(){
     if (operational == false){
         return;
     }
-    qDebug()<<"from HRA";
+    //qDebug()<<"from HRA";
     if ((myPatient->get_heart_rate() < 50 || myPatient->get_heart_rate() > 120)||myPatient->get_vf()==true){
         shockable = true;
         emit text_prompt_update("Shockable heart rhythm detected, STAND CLEAR and press 'shock'.");
@@ -214,7 +214,8 @@ void device::heart_rhythm_analysis(){
     }
     else{
         shockable = false;
-        emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock");
+        emit text_prompt_update("Unshockable heart rhythm detected, not suitable for delivering a shock\n\nPlease look for medical helps");
+        emit
         qDebug() << "'audio prompt'";
     }
 }
@@ -289,4 +290,25 @@ void device::on_press_chest(){
         cpr_analysis(1,0);
 
     }
+}
+
+//update dec.12
+
+void device::recharge(){
+    battery=100;
+}
+
+void device::disconnect(){
+    if(operational==true && state>=2){
+         state=1;
+         workflow();
+         text_status_update("electrode disconnected, please follow the instruction to connect them again");
+         emit image_timer_stop();
+         emit image_clear();
+         //stop graph
+
+    }//return to the state of init finished and not connect to the electrode
+
+
+
 }

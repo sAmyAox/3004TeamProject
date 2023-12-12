@@ -43,6 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->button_breath,&QPushButton::pressed,myDevice,&device::on_press_breath);
     connect(ui->button_chest,&QPushButton::pressed,myDevice,&device::on_press_chest);
 
+    //update dec 12
+
+    connect(ui->button_recharge,&QPushButton::pressed,myDevice,&device::recharge);
+    connect(ui->button_disconnect,&QPushButton::pressed,myDevice,&device::disconnect);
+
 
 
        //handle ecg:
